@@ -1,0 +1,6 @@
+
+Date: 2022-01-14, Width:205.0, Aspect Ratio: 60.0, Diameter: 15.0, Volume: 39.92449041517438, Volume(ounces): 1350.0067188987066
+Date: 2022-01-14, Width:34.00, Aspect Ratio: 54.00, Diameter: 63.00, Volume: 3.17
+Date: 2022-01-14, Width:1.00, Aspect Ratio: 1.00, Diameter: 1.00, Volume: 0.00
+Date: 2022-01-14, Width:205.00, Aspect Ratio: 60.00, Diameter: 15.00, Volume: 39.92, Volume(ounces): 1350.01
+Date: 2022-01-14, Width:34.00, Aspect Ratio: 25.00, Diameter: 34.00, Volume: 0.79, Volume(ounces): 26.77
