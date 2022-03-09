@@ -2,11 +2,14 @@
 This is gonna be some gnarly code that will make a receipt
 Author: Justin Mikolajcik All Rights Reserved
 '''
+import datetime
 
 def main():
     Name=0
     Price=1
     Quantity = 1
+    subtotal = 0
+    total_quantity = 0
     '''Calls the read_dict function and stores the compound dictionary in a variable named products_dict.
 Prints the products_dict.
 Opens the request.csv file for reading.
@@ -14,7 +17,7 @@ Contains a loop that reads and processes each row from the request.csv file. Wit
 Use the requested product number to find the corresponding item in the products_dict.
 Print the product name, requested quantity, and product price.'''
     product_dict = read_dict('products.csv', 0)
-    print(product_dict)
+    print("Walmart")
     with open('request.csv') as file:
         next(file)
         for line in file:
@@ -23,7 +26,17 @@ Print the product name, requested quantity, and product price.'''
             name = product_stuff[Name].strip()
             price = product_stuff[Price].strip()
             quantity = split[Quantity].strip()
-            print(f'{ name }, { price }, { quantity }')
+            print(f'{ name }:${ price }, Q:{ quantity }')
+            subtotal = subtotal + float(price)
+            total_quantity = float(quantity)+total_quantity
+    print(f"Total quantity:{total_quantity}")
+    print(f'Subtotal:{ subtotal:.2f}')
+    tax = subtotal*.06
+    print(f'Tax:{tax:.2f}')
+    total = subtotal + tax
+    print(f'Total:{total:.2f}')
+    print('Thank you for shopping with us')
+    print(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
 
 
 
