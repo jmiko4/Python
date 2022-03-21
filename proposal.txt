@@ -1,0 +1,40 @@
+Proposal for a Student Chosen Program
+
+(This is a proposal. All proposals are written with our best knowledge
+at the beginning of a project. As we progress from the beginning to the
+end of a project, we gain more knowledge, and some of the ideas we
+proposed change. This is part of completing any project and is fine.
+However, we still must write a proposal so that our teachers or
+supervisors know what we intend to do. Please answer each of the
+following questions to the best of your knowledge.)
+
+1. What is the title of your program?
+    The title of my program is Equipment Wishlist
+2. What real world problem will your program address or help to solve?
+    Instead of having to go to several different websites and services manually 
+    to compare the prices of camera equipment and to see which has the best price,
+    I will create a program that pulls the prices of camera equipment from the user's wishlist 
+    from popular camera gear new and used websites. It will be easier to monitor the prices and get the best deal
+    on new camera equipment.
+3. What will you learn from developing this program?
+    I will learn how to use a webscraper that pulls prices from sites and how
+    to make an interactive GUI that works with csv files to save and access 
+    user information
+4. What Python modules will your program use? (Some examples are: csv,
+datetime, functools, matplotlib, math, pandas, pytest, random, requests,
+and tkinter.)
+    I will probably be utilizing beautiful soup (a webscraping library) and 
+    PySimpleGUI (a GUI library) along with maybe csv to save and access user data
+5. Will you separate your Python program into functions that each
+perform a single task?
+    I will separate my program into different functions that perform different functions such as 
+    a several funtions to create and make the GUI interactive, several functions to work with user data, and
+    functions to pull information from websites.
+6. Will you write test functions to test many of your program functions?
+    I will write test functions that test the webscraping funtions to ensure they return 
+    results in the desired format
+(Remember that it's hard to test functions that get user input and print
+output. It's easy to test functions that don't get user input and don't
+print output but instead have parameters and return a result. Therefore,
+you should write most of your program functions to have parameters and
+return a result.)
