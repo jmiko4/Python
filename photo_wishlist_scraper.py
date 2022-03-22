@@ -1,14 +1,20 @@
 import requests
 from bs4 import BeautifulSoup
+import json
+
+
 def main():
-    URL = "https://www.mpb.com/en-us/used-equipment/used-photo-and-video/used-lenses/used-canon-fit-lenses/canon-ef-24-70mm-f-2-8-l-ii-usm/"
+    # URL = "https://www.keh.com/shop/canon-ef-2751b002-70-mm-200-mm-f-2-8-telephoto-zoom-lens.html"
+    # URL = "https://www.bhphotovideo.com/c/product/1547009-REG/canon_eos_r5_mirrorless_digital.html"
+    URL = "https://www.mpb.com/en-us/used-equipment/used-photo-and-video/used-lenses/used-canon-fit-lenses/canon-ef-100mm-f-2-8-macro/"
     page = requests.get(URL)
     soup = BeautifulSoup(page.content, "html.parser")
     mpb_info = get_info_mpb(soup)
+    # bh_info = get_info_bh(soup)
+    # keh_info = get_info_keh(soup)
     print (mpb_info)
 
 def get_info_mpb(soup):
-# URL = "https://www.mpb.com/en-us/used-equipment/used-photo-and-video/used-lenses/used-canon-fit-lenses/canon-ef-70-200mm-f-2-8-l-is-ii-usm/"
     info_dict={}
     like_new_price=0
     excellent_price=0
@@ -55,6 +61,22 @@ def get_info_mpb(soup):
 
     return info_dict
 
+def get_info_bh(soup):
+    # price = soup.find("div", class_="price_dx5435RJLV").text.strip()
+    # soup = json.loads("details_IuQVq7UR7J")
+    for d in soup.select("div[data-selenium=pricingPrice]"):
+        data = json.loads(d["data-pricingPrice"])
+        print(data)
+
+def get_info_keh(soup):
+    items = soup.find_all("tr", class_="no-border trigger-a2c-button active")
+    for item in items:
+        price = item.find("span", class_="price").text.strip()
+        print(price)
+    items = soup.find_all("tr",class_="no-border trigger-a2c-button")
+    for item in items:
+        price = item.find("span", class_="price").text.strip()
+        print(price)
 
 
 main()
