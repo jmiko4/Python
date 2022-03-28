@@ -25,6 +25,7 @@ def main():
     dicts.append(keh_dict)
     # print (dicts)
     write_to_csv(dicts)
+    csv_reader('Wishlist_Program/wishlist.csv')
 
 def get_info_mpb(soup):
     like_new_price=0
@@ -79,6 +80,28 @@ def write_to_csv (dicts):
         wishlist_writer = csv.DictWriter(wishlist, fieldnames=fieldnames)
         wishlist_writer.writeheader()
         wishlist_writer.writerows(dicts)
+
+def csv_reader(file):
+    SERVICE = 0
+    ITEM_NAME = 1
+    LIKE_NEW = 2
+    EXCELLENT = 3
+    GOOD = 4
+    WELL_USED=5
+    csv_list =[]
+    with open(file) as kyle:  
+        reader = csv.reader(kyle)
+        for line in reader:
+            csv_list.append(line)
+    # print(csv_list)
+    # for items in csv_list:
+    #     for item in items:
+    #         item.strip()
+    #         print(item)
+    # print(csv_list[1][SERVICE])
+    return csv_list
+
+
 
 
 # def get_info_bh(response):
