@@ -2,24 +2,14 @@ import requests
 from bs4 import BeautifulSoup
 import csv
 from re import search
-# import json
-# from requests_html import HTMLSession
 
 
 def main():
     File = open("out.csv", "a")
-    # URL = "https://www.bhphotovideo.com/c/product/1547009-REG/canon_eos_r5_mirrorless_digital.html"
-    # URL = 'https://www.amazon.com/Canon-Full-Frame-Mirrorless-Megapixel-Processor/dp/B08C68F2DX/ref=sr_1_3?crid=28LFOCBV5G9WA&keywords=canon%2Beos%2Br5&qid=1648054635&sprefix=canon%2Beos%2Br%2Caps%2C353&sr=8-3&th=1'
-    # URL = "https://www.mpb.com/en-us/used-equipment/used-photo-and-video/used-lenses/used-canon-fit-lenses/canon-ef-100mm-f-2-8-macro/"
-    # URL = "https://www.cpricewatch.com/product/06708/Canon-RF-24-105mm-F4-L-IS-USM-price.html"
-    URL = "https://www.mpb.com/en-us/used-equipment/used-photo-and-video/used-lenses/used-canon-fit-lenses/canon-ef-70-200mm-f-2-8-l-is-ii-usm/"
-    page = requests.get(URL)
-    soup = BeautifulSoup(page.content, "html.parser")
-    mpb_dict =get_info_mpb(soup)
-    URL = "https://www.keh.com/shop/canon-ef-2751b002-70-mm-200-mm-f-2-8-telephoto-zoom-lens.html"
-    page = requests.get(URL)
-    soup = BeautifulSoup(page.content, "html.parser")
-    keh_dict = get_info_keh(soup)
+    URL_MPB = "https://www.mpb.com/en-us/used-equipment/used-photo-and-video/used-lenses/used-canon-fit-lenses/canon-ef-70-200mm-f-2-8-l-is-ii-usm/"
+    mpb_dict =get_info_mpb(URL_MPB)
+    URL_KEH = "https://www.keh.com/shop/canon-ef-2751b002-70-mm-200-mm-f-2-8-telephoto-zoom-lens.html"
+    keh_dict = get_info_keh(URL_KEH)
     dicts= []
     dicts.append(mpb_dict)
     dicts.append(keh_dict)
@@ -27,7 +17,8 @@ def main():
     write_to_csv(dicts)
     csv_reader('Wishlist_Program/wishlist.csv')
 
-def get_info_mpb(soup):
+def get_info_mpb(URL):
+    '''Takes an MPB link and returns a dictionary with product information and pricing'''
     like_new_price=0
     excellent_price=0
     good_price=0
@@ -36,6 +27,8 @@ def get_info_mpb(soup):
     excellent=False
     good=False
     well_used=False
+    page = requests.get(URL)
+    soup = BeautifulSoup(page.content, "html.parser")
     item_name = soup.find("h1", class_="text-center www-model-name h2").text.strip()
     items = soup.find_all("article", class_="theme-product-stack-tile jq-theme-stack-tile www-product-list-item")
 
@@ -93,38 +86,10 @@ def csv_reader(file):
         reader = csv.reader(kyle)
         for line in reader:
             csv_list.append(line)
-    # print(csv_list)
-    # for items in csv_list:
-    #     for item in items:
-    #         item.strip()
-    #         print(item)
-    # print(csv_list[1][SERVICE])
     return csv_list
 
-
-
-
-# def get_info_bh(response):
-#     # soup = BeautifulSoup(response)
-#     # price = soup.find("div", class_="price_dx5435RJLV").text.strip()
-#     # soup = json.loads("details_IuQVq7UR7J")
-#     # for d in soup.select("div[data-selenium=pricingPrice]"):
-#         # data = json.loads(d["data-pricingPrice"])
-#         # print(data)
-#     # driver = webdriver.PhantomJS()
-#     # driver.get('https://www.bhphotovideo.com/c/product/1547009-REG/canon_eos_r5_mirrorless_digital.html')
-#     # p_element = driver.find_element_by_id(class_='text_v_wGSQBcdt comfy_v_wGSQBcdt sizeTitle1_v_wGSQBcdt weightNormal_v_wGSQBcdt primary_aEALyqkgyT')
-#     # print(p_element.text)
-#     print(response)
-
-# def get_info_canon(soup):
-#     prices = soup.find_all("span", class_="price_link_big")
-#     names = soup.find(id_="m.00040.00038.0.0")
-#     print(prices)
-#     print(names)
-
-
-def get_info_keh(soup):
+def get_info_keh(URL):
+    '''Takes a KEH link and returns a dictionary with product information and pricing'''
     like_new_price=0
     excellent_price=0
     good_price=0
@@ -139,6 +104,8 @@ def get_info_keh(soup):
     ex="EX"
     bgn= "BGN"
     prices=[]
+    page = requests.get(URL)
+    soup = BeautifulSoup(page.content, "html.parser")
     items = soup.find_all("tr", class_="no-border trigger-a2c-button active")
     item_name = soup.head.title.text.strip().replace(" at KEH Camera","")
     conditions = soup.find_all("td", class_="item-condition text-align center")
