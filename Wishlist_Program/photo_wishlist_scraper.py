@@ -68,6 +68,7 @@ def get_info_mpb(URL):
 
 
 def write_to_csv (dicts):
+    """Writes several dictionaries to a CSV file from a list of dictionaries"""
     with open('Wishlist_Program\wishlist.csv', 'w', newline='') as wishlist:
         fieldnames = ['Service','Item_Name','Like_New', 'Excellent', 'Good', 'Well_Used']
         wishlist_writer = csv.DictWriter(wishlist, fieldnames=fieldnames)
@@ -75,6 +76,7 @@ def write_to_csv (dicts):
         wishlist_writer.writerows(dicts)
 
 def csv_reader(file):
+    '''Takes a CSV file name and opens and reads it into a list then returns that list'''
     SERVICE = 0
     ITEM_NAME = 1
     LIKE_NEW = 2
