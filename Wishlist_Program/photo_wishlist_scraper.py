@@ -5,17 +5,15 @@ from re import search
 
 
 def main():
-    File = open("out.csv", "a")
-    URL_MPB = "https://www.mpb.com/en-us/used-equipment/used-photo-and-video/used-lenses/used-canon-fit-lenses/canon-ef-70-200mm-f-2-8-l-is-ii-usm/"
-    mpb_dict =get_info_mpb(URL_MPB)
-    URL_KEH = "https://www.keh.com/shop/canon-ef-2751b002-70-mm-200-mm-f-2-8-telephoto-zoom-lens.html"
-    keh_dict = get_info_keh(URL_KEH)
-    dicts= []
-    dicts.append(mpb_dict)
-    dicts.append(keh_dict)
+    # URL_MPB = "https://www.mpb.com/en-us/used-equipment/used-photo-and-video/used-lenses/used-canon-fit-lenses/canon-ef-70-200mm-f-2-8-l-is-ii-usm/"
+    # mpb_dict =get_info_mpb(URL_MPB)
+    # url = "https://www.keh.com/shop/canon-ef-2751b002-70-mm-200-mm-f-2-8-telephoto-zoom-lens.html"
+    # keh_dict = get_info_keh(URL_KEH)
     # print (dicts)
-    write_to_csv(dicts)
-    csv_reader('Wishlist_Program/wishlist.csv')
+    dicts = url_reader()
+    write_dicts_to_csv(dicts)
+    # csv_reader('Wishlist_Program/wishlist.csv')
+    # write_url_to_csv(url)
 
 def get_info_mpb(URL):
     '''Takes an MPB link and returns a dictionary with product information and pricing'''
@@ -67,28 +65,58 @@ def get_info_mpb(URL):
     return mpb_dict
 
 
-def write_to_csv (dicts):
+def write_dicts_to_csv (dicts):
     """Writes several dictionaries to a CSV file from a list of dictionaries"""
     with open('Wishlist_Program\wishlist.csv', 'w', newline='') as wishlist:
         fieldnames = ['Service','Item_Name','Like_New', 'Excellent', 'Good', 'Well_Used']
         wishlist_writer = csv.DictWriter(wishlist, fieldnames=fieldnames)
         wishlist_writer.writeheader()
         wishlist_writer.writerows(dicts)
+    return True
+
+def write_url_to_csv (url):
+    service = 'none'
+    if search('mpb',url):
+        service='MPB'
+    elif search('keh',url):
+        service ='KEH'
+
+    with open('Wishlist_Program\\urls.csv','a', newline='') as urls:
+        writer = csv.writer(urls)
+        # writer.writerow(['id','service','url'])
+        writer.writerow([len(csv_reader('Wishlist_Program\\urls.csv')),service,url])
+    return True
 
 def csv_reader(file):
     '''Takes a CSV file name and opens and reads it into a list then returns that list'''
-    SERVICE = 0
-    ITEM_NAME = 1
-    LIKE_NEW = 2
-    EXCELLENT = 3
-    GOOD = 4
-    WELL_USED=5
     csv_list =[]
     with open(file) as kyle:  
         reader = csv.reader(kyle)
         for line in reader:
             csv_list.append(line)
     return csv_list
+
+def url_reader():
+    '''This takes the url csv file and reads through the urls and calls the appropriate get info function and returns a list of dictionaries'''
+    dicts= []
+    urls = csv_reader('Wishlist_Program\\urls.csv')
+    for url in urls:
+        service = url[1]
+        URL = url[2]
+        if service == 'MPB': 
+            mpb_dict = get_info_mpb(URL)
+            dicts.append(mpb_dict)
+        elif service == 'KEH':
+            keh_dict = get_info_keh(URL)
+            dicts.append(keh_dict)
+    return dicts
+
+def refresh_prices():
+    dicts = url_reader()
+    write_dicts_to_csv(dicts)
+    return True
+
+
 
 def get_info_keh(URL):
     '''Takes a KEH link and returns a dictionary with product information and pricing'''
