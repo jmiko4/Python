@@ -2,7 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 import csv
 from re import search
-
+import PySimpleGUI as sg
 
 def main():
     # URL_MPB = "https://www.mpb.com/en-us/used-equipment/used-photo-and-video/used-lenses/used-canon-fit-lenses/canon-ef-70-200mm-f-2-8-l-is-ii-usm/"
@@ -10,10 +10,57 @@ def main():
     # url = "https://www.keh.com/shop/canon-ef-2751b002-70-mm-200-mm-f-2-8-telephoto-zoom-lens.html"
     # keh_dict = get_info_keh(URL_KEH)
     # print (dicts)
-    dicts = url_reader()
-    write_dicts_to_csv(dicts)
+    # dicts = url_reader()
+    # write_dicts_to_csv(dicts)
     # csv_reader('Wishlist_Program/wishlist.csv')
     # write_url_to_csv(url)
+    lists=[]
+    # info_lists=csv_reader('Wishlist_Program/wishlist.csv')
+    sg.theme('Dark Grey 13')
+    filename = "Wishlist_Program/wishlist.csv"
+    data = []
+    header_list = []
+    with open(filename, "r") as infile:
+        reader = csv.reader(infile)
+        header_list = next(reader)
+        data = list(reader) 
+    sg.set_options(element_padding=(0, 0))
+    # layout = []
+    layout = [  [sg.Text('Welcome to the Wishlist Program, Add a KEH or MPB url')],
+                [sg.Text('URL'), sg.InputText(do_not_clear=False)],
+                [sg.Button('Add Item URL'), sg.Button('Refresh Prices')],
+                [sg.Table(values=data,
+                            key = "table",
+                            headings=header_list,
+                            auto_size_columns=True,
+                            justification='right',
+                            max_col_width=30,
+                            alternating_row_color='black',
+                            num_rows=min(len(data), 20)
+                            )]
+                ]
+    # Create the Window
+    window = sg.Window('Wishlist', layout,finalize=True)
+    # Event Loop to process "events" and get the "values" of the inputs
+    while True:
+        event, values = window.read()
+        if event == sg.WIN_CLOSED or event == 'Cancel': # if user closes window or clicks cancel
+            break
+        if event == 'Add Item URL':
+            write_url_to_csv(values[0])
+            
+        if event == 'Refresh Prices':
+            refresh_prices()
+            # window["table"].Update(values=data,
+            #                 # headings=header_list,
+            #                 # auto_size_columns=True,
+            #                 # justification='right',
+            #                 # max_col_width=30,
+            #                 alternating_row_color='black',
+            #                 num_rows=min(len(data), 20))
+            window.Refresh()
+
+    window.close()
 
 def get_info_mpb(URL):
     '''Takes an MPB link and returns a dictionary with product information and pricing'''
