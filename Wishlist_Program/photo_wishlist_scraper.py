@@ -51,14 +51,12 @@ def main():
             
         if event == 'Refresh Prices':
             refresh_prices()
-            # window["table"].Update(values=data,
-            #                 # headings=header_list,
-            #                 # auto_size_columns=True,
-            #                 # justification='right',
-            #                 # max_col_width=30,
-            #                 alternating_row_color='black',
-            #                 num_rows=min(len(data), 20))
-            window.Refresh()
+            with open(filename, "r") as infile:
+                reader = csv.reader(infile)
+                header_list = next(reader)
+                data = list(reader) 
+            window["table"].Update(values=data)
+            # window.Refresh()
 
     window.close()
 
