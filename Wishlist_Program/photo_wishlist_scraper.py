@@ -5,17 +5,8 @@ from re import search
 import PySimpleGUI as sg
 
 def main():
-    # URL_MPB = "https://www.mpb.com/en-us/used-equipment/used-photo-and-video/used-lenses/used-canon-fit-lenses/canon-ef-70-200mm-f-2-8-l-is-ii-usm/"
-    # mpb_dict =get_info_mpb(URL_MPB)
-    # url = "https://www.keh.com/shop/canon-ef-2751b002-70-mm-200-mm-f-2-8-telephoto-zoom-lens.html"
-    # keh_dict = get_info_keh(URL_KEH)
-    # print (dicts)
-    # dicts = url_reader()
-    # write_dicts_to_csv(dicts)
-    # csv_reader('Wishlist_Program/wishlist.csv')
-    # write_url_to_csv(url)
+    '''Sets up and opens GUI'''
     lists=[]
-    # info_lists=csv_reader('Wishlist_Program/wishlist.csv')
     sg.theme('Dark Grey 13')
     filename = "Wishlist_Program/wishlist.csv"
     data = []
@@ -25,7 +16,6 @@ def main():
         header_list = next(reader)
         data = list(reader) 
     sg.set_options(element_padding=(0, 0))
-    # layout = []
     layout = [  [sg.Text('Welcome to the Wishlist Program, Add a KEH or MPB url')],
                 [sg.Text('URL'), sg.InputText(do_not_clear=False)],
                 [sg.Button('Add Item URL'), sg.Button('Refresh Prices')],
@@ -56,7 +46,6 @@ def main():
                 header_list = next(reader)
                 data = list(reader) 
             window["table"].Update(values=data)
-            # window.Refresh()
 
     window.close()
 
@@ -120,6 +109,7 @@ def write_dicts_to_csv (dicts):
     return True
 
 def write_url_to_csv (url):
+    '''Writes a URL to a CSV file'''
     service = 'none'
     if search('mpb',url):
         service='MPB'
@@ -128,7 +118,6 @@ def write_url_to_csv (url):
 
     with open('Wishlist_Program\\urls.csv','a', newline='') as urls:
         writer = csv.writer(urls)
-        # writer.writerow(['id','service','url'])
         writer.writerow([len(csv_reader('Wishlist_Program\\urls.csv')),service,url])
     return True
 
@@ -157,6 +146,7 @@ def url_reader():
     return dicts
 
 def refresh_prices():
+    '''Refreshes Prices in the wishlist csv'''
     dicts = url_reader()
     write_dicts_to_csv(dicts)
     return True
@@ -229,4 +219,6 @@ def get_info_keh(URL):
     return keh_dict
 
 
-main()
+
+if __name__ == "__main__":
+    main()

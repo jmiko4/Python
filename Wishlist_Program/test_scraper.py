@@ -1,5 +1,5 @@
 import pytest
-from photo_wishlist_scraper import get_info_mpb, get_info_keh,csv_reader, write_dicts_to_csv,write_url_to_csv, url_reader
+from photo_wishlist_scraper import get_info_mpb, get_info_keh,csv_reader, write_dicts_to_csv,write_url_to_csv, url_reader, refresh_prices
 
 
 
@@ -18,6 +18,9 @@ def test_csv_writer():
 def test_url_reader():
     reader=url_reader()
     assert isinstance(reader,list)
+
+def test_refresh_prices():
+    assert refresh_prices()==True
 
 
 def test_write_dicts_to_csv():
